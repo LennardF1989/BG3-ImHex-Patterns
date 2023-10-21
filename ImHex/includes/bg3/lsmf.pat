@@ -1,5 +1,12 @@
 #include <std/core.pat>
 #include <std/random.pat>
+#include <bg3/types.pat> 
+#include <bg3/functions.pat> 
+
+#define MACRO_COMPONENT component[numberOfElements] @ componentOffset + BASE_OFFSET
+#define [MACRO_COMPONENT_KNOWN] MACRO_COMPONENT [[name(name),hex::group("Known Components")]]
+#define [MACRO_COMPONENT_UNKNOWN] MACRO_COMPONENT [[name(name),hex::group("Unknown Components")]]
+#define [MACRO_COMPONENT_WIP] MACRO_COMPONENT [[name(name),hex::group("WIP Components")]]
 
 std::random::set_seed(0);
 
@@ -145,23 +152,23 @@ struct ComponentEntry {
     u32 size = structureSize * numberOfElements [[export]];
     
     match (name) {
-        ("game.ai.swarm.v0.MemberComponent"): core__v0__TranslatedString_Entry component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.avatar.v0.AvatarComponent"): core__v0__TranslatedString_Entry component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.race.v0.RaceComponent"): game__race__v0__RaceComponent component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.display_names.v0.DisplayTitleTS"): game__display_names__v0__DisplayTitleTS component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        ("game.display_names.v0.DisplayNameTS"): game__display_names__v0__DisplayNameTS component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        ("game.hotbar.v1.Slot"): game__hotbar__v1__Slot component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        //("game.game_timer.v1.GameTimerComponent"): game__game_timer__v1__GameTimerComponent component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        ("core.v0.Level"): core__v0__Level component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        ("core.v0.EntityId"): core__v0__EntityId component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("core.v0.TranslatedString"): core__v0__TranslatedString component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        ("game.action_resources.v1.Component"): game__action_resources__v1__Component component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        ("game.character_creation.v0.OriginComponent"): game__character_creation__v0__OriginComponent component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.character_creation.v0.VoiceComponent"): game__character_creation__v0__VoiceComponent component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.character_creation.v0.BackgroundComponent"): game__character_creation__v0__BackgroundComponent component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.character_creation.v1.AppearanceMaterialSetting"): game__character_creation__v1__AppearanceMaterialSetting component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("Known Components")]]; 
-        ("game.character_creation.v3.AppearanceComponent"): game__character_creation__v3__AppearanceComponent component[numberOfElements] @ componentOffset + BASE_OFFSET [[name(name),hex::group("WIP Components")]]; 
-        (_): UnknownComponent<structureSize> component[numberOfElements] @ componentOffset + BASE_OFFSET [[color(intToColor(std::random::generate(0, 0xFFFFFF))),name(name),hex::group("Unknown Components")]];
+        ("game.ai.swarm.v0.MemberComponent"): core__v0__TranslatedString_Entry [MACRO_COMPONENT_KNOWN]; 
+        ("game.avatar.v0.AvatarComponent"): core__v0__TranslatedString_Entry [MACRO_COMPONENT_KNOWN]; 
+        ("game.race.v0.RaceComponent"): game__race__v0__RaceComponent [MACRO_COMPONENT_KNOWN]; 
+        ("game.display_names.v0.DisplayTitleTS"): game__display_names__v0__DisplayTitleTS [MACRO_COMPONENT_WIP]; 
+        ("game.display_names.v0.DisplayNameTS"): game__display_names__v0__DisplayNameTS [MACRO_COMPONENT_WIP]; 
+        ("game.hotbar.v1.Slot"): game__hotbar__v1__Slot [MACRO_COMPONENT_WIP]; 
+        //("game.game_timer.v1.GameTimerComponent"): game__game_timer__v1__GameTimerComponent [MACRO_COMPONENT_WIP]; 
+        ("core.v0.Level"): core__v0__Level [MACRO_COMPONENT_WIP]; 
+        ("core.v0.EntityId"): core__v0__EntityId [MACRO_COMPONENT_KNOWN]; 
+        ("core.v0.TranslatedString"): core__v0__TranslatedString [MACRO_COMPONENT_WIP]; 
+        ("game.action_resources.v1.Component"): game__action_resources__v1__Component [MACRO_COMPONENT_WIP]; 
+        ("game.character_creation.v0.OriginComponent"): game__character_creation__v0__OriginComponent [MACRO_COMPONENT_KNOWN]; 
+        ("game.character_creation.v0.VoiceComponent"): game__character_creation__v0__VoiceComponent [MACRO_COMPONENT_KNOWN]; 
+        ("game.character_creation.v0.BackgroundComponent"): game__character_creation__v0__BackgroundComponent [MACRO_COMPONENT_KNOWN]; 
+        ("game.character_creation.v1.AppearanceMaterialSetting"): game__character_creation__v1__AppearanceMaterialSetting [MACRO_COMPONENT_KNOWN]; 
+        ("game.character_creation.v3.AppearanceComponent"): game__character_creation__v3__AppearanceComponent [MACRO_COMPONENT_WIP]; 
+        (_): UnknownComponent<structureSize> [MACRO_COMPONENT_UNKNOWN];
     }
 };
 

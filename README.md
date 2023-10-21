@@ -30,8 +30,6 @@ The first argument is the input save-file, the second is the output location of 
 
 #define BASE_OFFSET 48
 
-#include <bg3/types.pat> 
-#include <bg3/functions.pat> 
 #include <bg3/lsmf.pat> 
 
 LSMF lsmf @ 0x0;
@@ -41,4 +39,4 @@ printNamesEntries(lsmf);
 4. Evaluate the pattern and the "Pattern Data" should contain all information the pattern is currently able to understand.
 
 # Dependencies
-- [.NET 6 version](https://github.com/LennardF1989/lslib/tree/dotnet6) of [LSLib](https://github.com/Norbyte/lslib) to create LXS-, LOCA- and PAK-files.
+- [.NET 6 version](https://github.com/LennardF1989/lslib/tree/dotnet6) of [LSLib](https://github.com/Norbyte/lslib) to extract resources from save-files.
