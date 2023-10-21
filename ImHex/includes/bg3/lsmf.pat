@@ -56,8 +56,9 @@ struct core__v0__Level_OwnerMap {
     u64 endOffset;
     u64 componentIndex;
     u64 numberOfEntries;
-    
-    u32 ownerIndices[numberOfEntries] @ startOffset + BASE_OFFSET;
+    if (numberOfEntries != 0) {
+        u32 ownerIndices[numberOfEntries] @ startOffset + BASE_OFFSET;
+    }
 };
 
 struct core__v0__Level {
@@ -71,7 +72,7 @@ struct core__v0__Level {
     GUID entities[entityCount] @ entitiesStart + BASE_OFFSET;
 
     u32 ownerMapCount = (ownerMapsEnd - ownerMapsStart) / 32;
-    core__v0__Level_OwnerMap ownerMap[size] @ ownerMapsStart + BASE_OFFSET;
+    core__v0__Level_OwnerMap ownerMaps[ownerMapCount] @ ownerMapsStart + BASE_OFFSET;
 };
 
 struct core__v0__EntityId {
@@ -175,5 +176,5 @@ struct LSMF {
     u16 unknown1;
     u64 unknown2;
     
-    ComponentEntry components[numberOfComponents] @ absoluteOffset + nameBlockSize;
+    ComponentEntry components[numberOfComponents] @ blockOffset + nameBlockSize + BASE_OFFSET;
 };
