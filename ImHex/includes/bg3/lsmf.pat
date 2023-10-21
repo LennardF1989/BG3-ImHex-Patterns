@@ -51,23 +51,27 @@ struct game__action_resources__v1__Component {
     game__action_resources__v1__Component_Entry entries[size] @ startOffset + BASE_OFFSET;
 };
 
-struct core__v0__Level_Entry {
+struct core__v0__Level_OwnerMap {
     u64 startOffset;
     u64 endOffset;
-    u64 unknown1; //Some sort of index
+    u64 componentIndex;
     u64 numberOfEntries;
     
-    u32 entries[numberOfEntries] @ startOffset + BASE_OFFSET;
+    u32 ownerIndices[numberOfEntries] @ startOffset + BASE_OFFSET;
 };
 
 struct core__v0__Level {
-    u64 unknown1;
-    u64 unknown2;
-    u64 blockStart;
-    u64 blockEnd;  
+    u64 entitiesStart;
+    u64 entitiesEnd;
+    u64 ownerMapsStart;
+    u64 ownerMapsEnd;  
 
-    u32 size = (blockEnd - blockStart) / 32;
-    core__v0__Level_Entry entries[size] @ blockStart + BASE_OFFSET;
+    u64 entityCount = (entitiesEnd - entitiesStart) / 16;
+
+    GUID entities[entityCount] @ entitiesStart + BASE_OFFSET;
+
+    u32 ownerMapCount = (ownerMapsEnd - ownerMapsStart) / 32;
+    core__v0__Level_OwnerMap ownerMap[size] @ ownerMapsStart + BASE_OFFSET;
 };
 
 struct core__v0__EntityId {
@@ -127,17 +131,16 @@ struct UnknownComponent<auto size> {
     u8 bytes[size];
 } [[sealed]];
 
-struct ComponentEntry<auto offset> {
+struct ComponentEntry {
     u64 nameOffset;
     u64 nameSize;
     u64 hash; //Probably
     u32 structureSize;
-    u32 flag2; //Structure type?
-    u32 numberOfElements;
-    u32 flag4;
+    u32 version;
+    u64 numberOfElements;
     u64 componentOffset;
     
-    char name[nameSize] @ offset + nameOffset;
+    char name[nameSize] @ parent.blockOffset + nameOffset + BASE_OFFSET;
     u32 size = structureSize * numberOfElements [[export]];
     
     match (name) {
@@ -172,8 +175,5 @@ struct LSMF {
     u16 unknown1;
     u64 unknown2;
     
-    u64 absoluteOffset = $ + blockOffset;
-    
-    ComponentEntry<absoluteOffset> components[numberOfComponents] 
-        @ absoluteOffset + nameBlockSize;
+    ComponentEntry components[numberOfComponents] @ absoluteOffset + nameBlockSize;
 };
