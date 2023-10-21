@@ -1,0 +1,6 @@
+/Publish
+/Res
+bin
+obj
+.vs
+*.user

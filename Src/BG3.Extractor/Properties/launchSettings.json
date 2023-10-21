@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BG3.Extractor": {
+      "commandName": "Project",
+      "commandLineArgs": "Content\\AutoSave_0.lsv"
+    }
+  }
+}
